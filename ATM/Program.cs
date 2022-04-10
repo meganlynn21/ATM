@@ -10,67 +10,99 @@ namespace ATM
 {
     internal class Program
     {
+        public static List<double> transactions = new List<double>();
+        public static List<double> cash = new List<double>();
+        static AccountHolder accountHolder = new AccountHolder();
+
         static void Main(string[] args)
         {
-            AccountHolder accountHolder = new AccountHolder(1234, 5450878657260454);
-            bool shouldContinue = true;
-            double bankAccount = 2000;
-
-            // ---------- ERROR CHECKING ---------------------------------------------------
-            while (shouldContinue)
+            accountHolder.cardNumber = 5450878657260454;
+            accountHolder.pinNumber = 1234;
+            accountHolder.bankAccount = 2000;
+       
+            while (true)
             {
-                try
-                {
-                    Console.WriteLine("Enter your debit or credit card number: ");
-                    double cardnum = Double.Parse(Console.ReadLine());
-                    if (cardnum != accountHolder.cardNumber)
+                CheckAccount();
+            }
+        }
+        public static void MainMenu()
+        {
+
+            Console.Clear();
+
+            Console.WriteLine("\n\nATM MAIN MENU");
+            Console.WriteLine("Pick one of the following options");
+            Console.WriteLine("\nType 0 to Exit");
+            Console.WriteLine("Type 1 for Cash Withdrawal");
+            Console.WriteLine("Type 2 for Show previous transactions");
+            Console.WriteLine("Type 3 for Balance");
+
+            string menuSelector = Convert.ToString(Console.ReadKey(true).KeyChar);
+            double myMoney = 0;
+
+            switch (menuSelector)
+            {
+                case "0":
+                    Environment.Exit(0);
+                    break;
+                // Cash Withdrawal and Availability
+                case "1":
+                    Console.WriteLine("Input amount you are taking out: ");
+                    double cashWithdrawn = Double.Parse(Console.ReadLine());
+                    myMoney += cashWithdrawn;
+                    transactions.Add(cashWithdrawn);
+                    Console.WriteLine($"You have {myMoney}");
+                    break;
+                // Show Previous Transactions
+                case "2":
+                    foreach (double number in transactions)
                     {
-                        Console.WriteLine("Invalid card number");
+                        Console.WriteLine(number);
                     }
+                    Console.ReadLine();
+                    break;
+                // Show Balance
+                case "3":
+                    CheckAccount();
+                    break;
 
-                    //Verifying the user by asking for a PIN
-                    Console.WriteLine("Enter your PIN number: ");
-                    int pinNum = int.Parse(Console.ReadLine());
 
-                    //In case of negative verification, logging out the user
+            }
+          
+        }
+        public static void CheckAccount()
+        {
+            Console.WriteLine("\nEnter your debit or credit card number: ");
+            string cardnum = Console.ReadLine();
 
-                    if (pinNum != accountHolder.pinNumber)
-                    {
-                        Console.WriteLine("Invalid PIN");
-                        Console.ReadLine();
-                    }
-                    else
-                    {
-                        shouldContinue = false;
-                    }
-                }
-                catch(FormatException)
-                {
-                    Console.WriteLine("Wrong Format");
-                }
-
-                // END OF ERROR CHECKING ----------------------------------------
-
-                //In case of positive verification, showing multiple options,
-                //including cash availability, the previous five transactions, and cash withdrawal
-
-                List<double> transactions = new List<double>();
-                List<double> cash = new List<double>();
-                Console.WriteLine("Pick one of the following options");
-                Console.WriteLine("Cash Withdrawal");
-                double cashWithdrawal = Double.Parse(Console.ReadLine());
-                Console.WriteLine("Show previous transactions");
-                Console.WriteLine("Cash Availability");
-                
-                // Cash Availability
-                if (cashWithdrawal < bankAccount)
-                {
-
-                }
-
-                Console.ReadLine();
+            if (!Validate.IsCardNumberValid(cardnum))
+            {
+                Console.WriteLine("invalid card number.");
+                return;
+            }
+            else if(Double.Parse(cardnum) != accountHolder.cardNumber)
+            {
+                Console.WriteLine("invalid card number.");
             }
 
+            Console.WriteLine("\nEnter your PIN number: ");
+            string pinNum = Console.ReadLine();
+
+            if (!Validate.IsPinNumberValid(pinNum))
+            {
+                Console.WriteLine("invalid pin number.");
+                return;
+            }
+            else if (Double.Parse(pinNum) != accountHolder.pinNumber)
+            {
+                Console.WriteLine("invalid pin number.");
+            }
+
+            while (true)
+            {
+                MainMenu();
+            }
         }
     }
 }
+

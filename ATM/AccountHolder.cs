@@ -8,15 +8,8 @@ namespace ATM
 {
     public class AccountHolder
     {
-        public int pinNumber;
-        public double cardNumber;
-
-        public AccountHolder(int aPinNumber, double aCardNumber)
-        {
-        
-            pinNumber = aPinNumber;
-            cardNumber = aCardNumber;
-        }
-
+        public int pinNumber { get; set; }
+        public double cardNumber { get; set; }
+        public double bankAccount { get; set; }
     }
 }

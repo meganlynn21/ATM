@@ -36,8 +36,7 @@ namespace ATM
             Console.WriteLine("\nType Enter to go back to the MAIN MENU");
             Console.WriteLine("Type 0 to Exit");
             Console.WriteLine("Type 1 for Cash Withdrawal");
-            Console.WriteLine("Type 2 for Show previous transactions");
-            Console.WriteLine("Type 3 for Balance");
+            Console.WriteLine("Type 2 for Show previous Transactions and Balance");
 
             string menuSelector = Convert.ToString(Console.ReadKey(true).KeyChar);
  
@@ -64,13 +63,23 @@ namespace ATM
             Transaction trans = new Transaction();
             Console.Clear();
             Console.WriteLine("Input amount you are taking out: ");
-             trans.Amount = Double.Parse(Console.ReadLine());
-             trans.Date = DateTime.Now;
-             money += trans.Amount;
-             transactions.Add(trans);
-             Console.WriteLine($"You received {money}");
-             Console.WriteLine("\nPress any key to return");
-             trans.Balance = accountHolder.bankAccount -= trans.Amount;
+            if (accountHolder.bankAccount > 0)
+            {
+                trans.Amount = Double.Parse(Console.ReadLine());
+                trans.Date = DateTime.Now;
+                money += trans.Amount;
+                transactions.Add(trans);
+                Console.WriteLine($"You received {money}");
+                Console.WriteLine("\nPress any key to return");
+                trans.Balance = accountHolder.bankAccount -= trans.Amount;
+            }
+            else 
+            {
+                Console.Clear();
+                Console.Write("You have no money in your account to withdraw. Logging off...");
+                Console.ReadLine();
+                Environment.Exit(0);
+            }
         }
         public static void ShowTransactions()
         {
@@ -90,25 +99,32 @@ namespace ATM
 
             if (!Validate.IsCardNumberValid(cardnum))
             {
-                Console.WriteLine("invalid card number.");
+                Console.WriteLine("Invalid card number.");
                 return;
             }
             else if(Double.Parse(cardnum) != accountHolder.cardNumber)
             {
-                Console.WriteLine("invalid card number.");
-            }
-
-            Console.Write("\nEnter your PIN number: ");
-            string pinNum = Console.ReadLine();
-
-            if (!Validate.IsPinNumberValid(pinNum))
-            {
-                Console.WriteLine("invalid pin number.");
+                Console.WriteLine("Invalid card number.");
                 return;
             }
-            else if (Double.Parse(pinNum) != accountHolder.pinNumber)
+            bool isValid = true;
+            while (isValid)
             {
-                Console.WriteLine("invalid pin number.");
+                Console.Write("\nEnter your PIN number: ");
+                string pinNum = Console.ReadLine();
+
+                if (!Validate.IsPinNumberValid(pinNum))
+                {
+                    Console.WriteLine("invalid pin number.");
+                    continue;
+
+                }
+                else if (Double.Parse(pinNum) != accountHolder.pinNumber)
+                {
+                    Console.WriteLine("invalid pin number.");
+                    continue; 
+                }
+                isValid = false;
             }
 
             while (true)

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ConsoleTableExt;
 
+
 namespace ATM
 {
     internal class Program
@@ -17,9 +18,10 @@ namespace ATM
 
         static void Main(string[] args)
         {
+            BankController.CreateTable();
             accountHolder.cardNumber = 5450878657260454;
             accountHolder.pinNumber = 1234;
-            accountHolder.bankAccount = 2000;
+            accountHolder.bankBalance = 2000;
        
             while (true)
             {
@@ -59,19 +61,17 @@ namespace ATM
 
         public static void WithDrawMoney()
         {
-            double money = 0;
             Transaction trans = new Transaction();
             Console.Clear();
             Console.WriteLine("Input amount you are taking out: ");
-            if (accountHolder.bankAccount > 0)
+            if (accountHolder.bankBalance > 0)
             {
                 trans.Amount = Double.Parse(Console.ReadLine());
                 trans.Date = DateTime.Now;
-                money += trans.Amount;
                 transactions.Add(trans);
-                Console.WriteLine($"You received {money}");
+                Console.WriteLine($"You received {trans.Amount}");
                 Console.WriteLine("\nPress any key to return");
-                trans.Balance = accountHolder.bankAccount -= trans.Amount;
+                trans.Balance = accountHolder.bankBalance -= trans.Amount;
             }
             else 
             {
@@ -90,42 +90,40 @@ namespace ATM
             Console.WriteLine("Press any key to return");
             Console.ReadKey();
         }
-    
-      
+
         public static void CheckAccount()
         {
             Console.Write("\nEnter your debit or credit card number: ");
             string cardnum = Console.ReadLine();
+
 
             if (!Validate.IsCardNumberValid(cardnum))
             {
                 Console.WriteLine("Invalid card number.");
                 return;
             }
-            else if(Double.Parse(cardnum) != accountHolder.cardNumber)
+            else if(!BankController.CheckCardNumber(cardnum))
             {
                 Console.WriteLine("Invalid card number.");
                 return;
             }
-            bool isValid = true;
-            while (isValid)
-            {
+          
                 Console.Write("\nEnter your PIN number: ");
                 string pinNum = Console.ReadLine();
 
                 if (!Validate.IsPinNumberValid(pinNum))
                 {
                     Console.WriteLine("invalid pin number.");
-                    continue;
+                    return;
 
                 }
                 else if (Double.Parse(pinNum) != accountHolder.pinNumber)
                 {
                     Console.WriteLine("invalid pin number.");
-                    continue; 
+                    return; 
                 }
-                isValid = false;
-            }
+              
+            
 
             while (true)
             {

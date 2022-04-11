@@ -10,6 +10,6 @@ namespace ATM
     {
         public int pinNumber { get; set; }
         public double cardNumber { get; set; }
-        public double bankAccount { get; set; }
+        public double bankBalance { get; set; }
     }
 }

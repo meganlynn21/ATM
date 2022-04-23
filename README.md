@@ -1,6 +1,6 @@
 # ATM
 
-- I am learning C#. This is the first project I made from scratch on my own using C#.
+I am learning C#. This is the first project I made from scratch on my own using C#.
 
 * User enters the credit card number and PIN number that is stored in the program
 

@@ -1,5 +1,7 @@
 # ATM
 
+- I am learning C#. This is the first project I made from scratch on my own using C#.
+
 * User enters the credit card number and PIN number that is stored in the program
 
 ![](https://user-images.githubusercontent.com/83522315/164872912-313385a6-afa8-48a6-9462-6dd79467a911.PNG)

@@ -10,7 +10,7 @@
 
 * Allows the user to input the cash amount to take out of the account
 
-* ![](https://user-images.githubusercontent.com/83522315/164872929-306d1718-2d40-4aa0-836c-6a014eb1e242.PNG)
+![](https://user-images.githubusercontent.com/83522315/164872929-306d1718-2d40-4aa0-836c-6a014eb1e242.PNG)
 
 * Displays the user's transactions
 
